@@ -5,8 +5,10 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from api.permissions import IsAuthorOrReadOnly
-from api.serializers import (CommentSerializer, FollowSerializer, GroupSerializer, PostSerializer)
+from api.serializers import (CommentSerializer, FollowSerializer,
+                             GroupSerializer, PostSerializer)
 from posts.models import Group, Post
+
 
 class CreateRetrieveDelete(
     mixins.CreateModelMixin,

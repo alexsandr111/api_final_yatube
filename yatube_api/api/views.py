@@ -66,7 +66,7 @@ class FollowViewSet(CreateRetrieveDelete):
 
     def get_queryset(self):
         follower = self.request.user
-        subscriptions = follower.follower.al()
+        subscriptions = follower.follower.all()
         return subscriptions
 
     def perform_create(self, serializer):

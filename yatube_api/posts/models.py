@@ -1,3 +1,4 @@
+"""Модели Yatube."""
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -5,18 +6,19 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    """Модель групп"""
+    """Модель групп."""
 
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
 
     def __str__(self):
+        """Строковое представление."""
         return self.title
 
 
 class Post(models.Model):
-    """Модель постов"""
+    """Модель постов."""
 
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
@@ -33,11 +35,12 @@ class Post(models.Model):
         upload_to='posts/', null=True, blank=True)
 
     def __str__(self):
+        """Строковое представление."""
         return self.text
 
 
 class Comment(models.Model):
-    """Модель комментариев"""
+    """Модель комментариев."""
 
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
@@ -48,11 +51,12 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
     def __str__(self):
+        """Строковое представление."""
         return self.text
 
 
 class Follow(models.Model):
-    """Модель подписок"""
+    """Модель подписок."""
 
     user = models.ForeignKey(
         User,
@@ -66,7 +70,7 @@ class Follow(models.Model):
     )
 
     class Meta:
-        """Ограничения модели"""
+        """Ограничения модели."""
 
         constraints = [
             models.UniqueConstraint(
@@ -80,4 +84,5 @@ class Follow(models.Model):
         ]
 
     def __str__(self) -> str:
+        """Строковое представление."""
         return f'User:{self.user} - Following:{self.following}'

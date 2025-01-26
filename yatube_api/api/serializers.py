@@ -1,3 +1,4 @@
+"""Сериализаторы проекта."""
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -5,7 +6,7 @@ from posts.models import Comment, Follow, Group, Post, User
 
 
 class PostSerializer(serializers.ModelSerializer):
-    """Сериализатор постов"""
+    """Сериализатор постов."""
 
     author = serializers.SlugRelatedField(
         slug_field='username',
@@ -13,13 +14,24 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
+        """Мета."""
 
         model = Post
         fields = ['id', 'text', 'pub_date', 'author', 'group', 'image']
 
 
+class GroupSerializer(serializers.ModelSerializer):
+    """Сериализатор групп."""
+
+    class Meta:
+        """Мета."""
+
+        model = Group
+        fields = ['id', 'title', 'slug', 'description']
+
+
 class CommentSerializer(serializers.ModelSerializer):
-    """Сериализатор комментариев"""
+    """Сериализатор комментариев."""
 
     author = serializers.SlugRelatedField(
         read_only=True,
@@ -27,23 +39,15 @@ class CommentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
+        """Мета."""
 
         model = Comment
         fields = ['id', 'author', 'post', 'text', 'created']
         read_only_fields = ['author', 'post']
 
 
-class GroupSerializer(serializers.ModelSerializer):
-    """Сериализатор групп."""
-
-    class Meta:
-
-        model = Group
-        fields = ['id', 'title', 'slug', 'description']
-
-
 class FollowSerializer(serializers.ModelSerializer):
-    """Сериализатор подписок"""
+    """Сериализатор подписок."""
 
     user = serializers.SlugRelatedField(
         slug_field='username',
@@ -56,6 +60,7 @@ class FollowSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
+        """Мета."""
 
         fields = (
             'user',
@@ -75,6 +80,7 @@ class FollowSerializer(serializers.ModelSerializer):
     ]
 
     def validate(self, data):
+        """Валидация."""
         if self.context['request'].user == data['following']:
             raise serializers.ValidationError(
                 'Подписка на самого себя недоступна.'

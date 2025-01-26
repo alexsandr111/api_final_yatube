@@ -1,4 +1,4 @@
-"""Вьюсеты проекта"""
+"""Вьюсеты проекта."""
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
@@ -21,7 +21,7 @@ class CreateRetrieveDelete(
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    """Вьюсет постов"""
+    """Вьюсет постов."""
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -31,11 +31,12 @@ class PostViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
+        """."""
         serializer.save(author=self.request.user)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
-    """Вьюсет групп"""
+    """Вьюсет групп."""
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
@@ -43,7 +44,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    """Вьюсет комментариев"""
+    """Вьюсет комментариев."""
 
     serializer_class = CommentSerializer
     permission_classes = [IsAuthorOrReadOnly, IsAuthenticatedOrReadOnly]
@@ -59,7 +60,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(CreateRetrieveDelete):
-    """Вьюсет подписок"""
+    """Вьюсет подписок."""
 
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -67,9 +68,11 @@ class FollowViewSet(CreateRetrieveDelete):
     search_fields = ('following__username',)
 
     def get_queryset(self):
+        """."""
         follower = self.request.user
         subscriptions = follower.follower.all()
         return subscriptions
 
     def perform_create(self, serializer):
+        """."""
         serializer.save(user=self.request.user)
